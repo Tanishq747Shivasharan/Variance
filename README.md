@@ -1,233 +1,188 @@
 # IT Project Delay & Performance Analytics
 
-A data analytics project that finds **why IT projects get delayed and go over budget**, using a synthetic dataset of 250 software projects.
+**A Data Analytics Project to Identify Factors Associated with IT Project Delays, Effort Variance, and Performance Differences**
 
-**Tools:** Python, Pandas, NumPy, Matplotlib, Seaborn
+## About the Project
 
-**Question answered:** What factors are associated with IT project delays and cost overruns, and what can management learn from historical project data?
+IT projects frequently experience differences between their estimated and actual schedules and effort. These differences can be associated with several factors, including project size, team experience, requirements, project complexity, development methodology, and project management practices.
 
-> Note: the data is synthetic (generated with a fixed random seed), so the findings describe this dataset, not real companies.
+**IT Project Delay & Performance Analytics** is a data analytics project that explores historical software project data to understand these differences, identify performance patterns, and generate meaningful insights that can support better project planning and management.
 
----
+The project uses a real-world research dataset and follows a structured data analytics workflow, from data understanding and cleaning to exploratory analysis, visualization, and dashboard development.
 
-## KPI Summary
+## Objectives
 
-| KPI | Value |
-|---|---|
-| Total projects | 250 |
-| Delayed projects | 182 (72.8%) |
-| Average delay | 10.1 days |
-| Average cost overrun | 9.5% |
-| Average task completion | 95.6% |
-| Average client satisfaction | 4.1 / 5 |
-
----
-
-## Key Findings
-
-### 1. ERP and AI/ML projects are delayed the most
-
-Average delay by project type (each `#` = 1 day):
-
-```
-ERP     | ########################## 26.5
-AI/ML   | #################### 20.5
-Cloud   | ########### 11.4
-Data    | ######### 9.6
-Mobile  | ###### 6.4
-Web     | -0.5 (on time)
-```
-
-| Project Type | Projects | Avg Delay (days) | Avg Client Changes | Avg Cost Overrun % |
-|---|---|---|---|---|
-| ERP | 35 | 26.5 | 5.5 | 16.5 |
-| AI/ML | 26 | 20.5 | 5.1 | 15.4 |
-| Cloud | 34 | 11.4 | 3.9 | 10.1 |
-| Data | 43 | 9.6 | 3.7 | 9.7 |
-| Mobile | 46 | 6.4 | 3.5 | 6.4 |
-| Web | 66 | -0.5 | 2.7 | 5.2 |
-
-The project types with the most delay also get the most client changes and have the highest cost overruns.
-
-### 2. More client changes means longer delays
-
-Average delay by number of client changes (each `#` = 1 day):
-
-```
-Low (0-2 changes)      | ## 1.9
-Medium (3-5 changes)   | ############ 12.1
-High (6+ changes)      | ################# 17.3
-```
-
-Projects with 6 or more client changes are delayed about 9 times longer than projects with 0 to 2 changes.
-
-### 3. More bugs are associated with longer delays
-
-Bugs found and delay have a positive correlation (r = 0.37), similar in strength to client changes (r = 0.38).
-
-### 4. Smaller teams are delayed slightly more
-
-Average delay by team size (each `#` = 1 day):
-
-```
-Small (5 or fewer)   | ############ 12.1
-Medium (6-10)        | ########## 10.5
-Large (11+)          | ######## 8.0
-```
-
-The overall correlation with team size is weak (r = -0.09), so team size is a minor factor in this dataset.
-
-### 5. Delays drive cost overruns
-
-Average cost overrun by project type (each `#` = 1%):
-
-```
-ERP     | ################ 16.5%
-AI/ML   | ############### 15.4%
-Cloud   | ########## 10.1%
-Data    | ########## 9.7%
-Mobile  | ###### 6.4%
-Web     | ##### 5.2%
-```
-
-- Delayed projects average an 11.7% cost overrun, versus 3.6% for on-time projects.
-- Delay days and cost overrun % have the strongest relationship in the data (r = 0.69).
-- 114 of 250 projects exceeded their budget by more than 10%.
-
-Top 5 cost overruns:
-
-| Project | Type | Delay (days) | Cost Overrun % |
-|---|---|---|---|
-| P229 | AI/ML | 44 | 30.7 |
-| P027 | ERP | 64 | 28.5 |
-| P246 | ERP | 46 | 28.5 |
-| P112 | ERP | 63 | 28.0 |
-| P073 | ERP | 20 | 27.7 |
-
-### 6. Overtime does not fix delays
-
-| Overtime Level | Avg Delay (days) | Avg Cost Overrun % | Avg Task Completion % |
-|---|---|---|---|
-| Low | 7.3 | 7.8 | 95.6 |
-| Medium | 11.6 | 9.1 | 95.5 |
-| High | 11.4 | 11.8 | 95.8 |
-
-High-overtime projects cost more, but task completion stays the same. Extra hours add cost without improving completion.
-
-### 7. Delays hurt client satisfaction
-
-| Group | Avg Client Satisfaction (out of 5) |
-|---|---|
-| On-time projects | 4.53 |
-| Delayed projects | 3.95 |
-
-### 8. Monthly performance varies
-
-Average delay by month (each `#` = 1 day):
-
-```
-Jan | ############ 11.9
-Feb | ################## 18.1
-Mar | ######## 8.1
-Apr | ###### 6.1
-May | ############ 12.0
-Jun | ######### 9.3
-Jul | ############ 11.7
-Aug | ######## 7.5
-Sep | ############### 14.9
-Oct | #### 4.1
-Nov | ######### 9.5
-Dec | ######## 8.4
-```
-
-Delay peaks in February and September and is lowest in October. Since the data is synthetic, these swings are mostly random; the analysis shows how a real trend would be tracked.
-
-### Correlation with Delay Days
-
-| Factor | Correlation |
-|---|---|
-| Cost overrun % | 0.69 |
-| Client changes | 0.38 |
-| Bugs found | 0.37 |
-| Overtime hours | 0.11 |
-| Team size | -0.09 |
-| Client satisfaction | -0.41 |
-| Task completion rate | -0.55 |
-
-Correlation does not prove causation. These are associations found in the dataset.
-
+- Analyze differences between estimated and actual project duration.
+- Examine estimated versus actual project effort.
+- Identify project characteristics associated with schedule and effort variance.
+- Explore relationships between project size, complexity, team characteristics, requirements, and performance.
+- Analyze project gain/loss information where the available data supports it.
+- Develop visualizations and a dashboard to communicate important findings.
+- Provide evidence-based recommendations for improving project planning and management.
 
 ## Dataset
 
-`data/it_project_data.csv` has one row per project (250 rows, 17 columns, no missing values, no duplicates).
+This project uses the **SEERA (Software enginEERing in SudAn) dataset**, a publicly available research dataset containing information from 120 software development projects across 42 organizations in Sudan.
 
-| Column | Description |
-|---|---|
-| Project_ID | Unique project identifier |
-| Project_Type | Web / Mobile / Data / Cloud / AI/ML / ERP |
-| Department | Development / Testing / Data / Infrastructure |
-| Month | Month of the project |
-| Team_Size | Number of team members |
-| Planned_Duration_Days | Planned duration |
-| Actual_Duration_Days | Actual duration |
-| Tasks_Planned | Planned tasks |
-| Tasks_Completed | Completed tasks |
-| Bugs_Found | Bugs identified |
-| Bugs_Fixed | Bugs fixed |
-| Client_Changes | Client requirement changes |
-| Planned_Budget | Original budget (Rs.) |
-| Actual_Cost | Actual cost (Rs.) |
-| Overtime_Hours | Extra working hours |
-| Project_Status | Completed / Delayed / Ongoing |
-| Client_Satisfaction | Rating from 1 to 5 |
+The dataset contains 76 attributes covering different aspects of software projects, including effort, size, developers, users, product characteristics, project information, and environmental factors.
 
-`data/it_project_data_processed.csv` adds these calculated columns:
+**Dataset source:** [SEERA Dataset on Zenodo](https://zenodo.org/records/4312777)
 
-| Column | Formula |
-|---|---|
-| Delay_Days | Actual_Duration_Days - Planned_Duration_Days |
-| Task_Completion_Rate | Tasks_Completed / Tasks_Planned * 100 |
-| Bug_Resolution_Rate | Bugs_Fixed / Bugs_Found * 100 |
-| Budget_Variance | Actual_Cost - Planned_Budget |
-| Cost_Overrun_Pct | (Actual_Cost - Planned_Budget) / Planned_Budget * 100 |
+**Primary raw data file:** `SEERA dataset original raw data.xlsx`
 
----
+The dataset will be examined before finalizing the analytical variables. Only variables relevant to the project objectives and sufficiently documented for interpretation will be selected.
 
-## Project Structure
+## Key Areas of Analysis
+
+### 1. Schedule Performance
+- Estimated versus actual project duration
+- Duration variance and percentage variance
+- Identification of early, on-time, and delayed projects, subject to validation of the source data
+
+### 2. Effort Performance
+- Estimated versus actual project effort
+- Effort variance and percentage variance
+- Comparison of effort differences across project characteristics
+
+### 3. Project Characteristics
+- Project size and complexity
+- Team size and experience
+- Requirements stability and flexibility
+- Development methodology
+- Project management practices
+- Technical and environmental factors
+
+### 4. Overall Project Performance
+- Analysis of available project gain/loss information
+- Exploration of factors associated with differences in project outcomes
+- Identification of patterns that may support better project planning
+
+The final analysis will depend on the actual variables, data quality, and coding definitions available in the dataset.
+
+## Tools and Technologies
+
+- **Python** — Data analysis and processing
+- **Pandas** — Data manipulation and cleaning
+- **NumPy** — Numerical operations
+- **Matplotlib** — Data visualization
+- **Seaborn** — Statistical visualization
+- **Power BI and/or Streamlit** — Dashboard development
+- **Jupyter Notebook / Google Colab / VS Code** — Development environment
+- **Git and GitHub** — Version control and project documentation
+
+## Project Workflow
+
+The project follows these stages:
+
+1. Dataset acquisition and source verification
+2. Dataset understanding and column audit
+3. Data cleaning and quality assessment
+4. Selection of relevant variables
+5. Feature engineering and metric calculation
+6. Exploratory Data Analysis (EDA)
+7. Data visualization and relationship analysis
+8. Dashboard development
+9. Interpretation of findings
+10. Recommendations, documentation, and presentation
+
+## Preliminary Performance Metrics
+
+The following metrics will be considered after validating the source variables and their definitions.
+
+**Duration Variance**
+
+`Actual Duration - Estimated Duration`
+
+**Duration Variance (%)**
+
+`(Actual Duration - Estimated Duration) / Estimated Duration * 100`
+
+**Effort Variance**
+
+`Actual Effort - Estimated Effort`
+
+**Effort Variance (%)**
+
+`(Actual Effort - Estimated Effort) / Estimated Effort * 100`
+
+A positive variance indicates that the actual value exceeds the estimate, while a negative variance indicates that the actual value is below the estimate. These interpretations assume that the underlying source values use compatible units and valid numeric scales.
+
+## Repository Structure
 
 ```text
-ProManager/
-├── images/
-├── powerbi/
-│   └── simple_dashboard_project_delay.pbix
+IT-Project-Delay-Performance-Analytics/
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── notebooks/
+│
 ├── src/
-│   ├── analytics.py
-│   └── chats.py
+│
 ├── visualizations/
-│   ├── average_delay_by_department.png
-│   ├── bugs_vs_delay.png
-│   ├── planned_vs_actual_days.png
-│   ├── projects_by_delay_reason.png
-│   └── projects_by_department.png
-├── .gitignore
-├── LICENSE
+│
+├── dashboard/
+│
+├── docs/
+│
 ├── README.md
 └── requirements.txt
 ```
 
-## How to Run
+- `data/raw/` — Original dataset, preserved without modification.
+- `data/processed/` — Cleaned dataset and analysis-ready files.
+- `notebooks/` — Exploratory analysis and experiments.
+- `src/` — Reusable Python scripts and functions.
+- `visualizations/` — Exported charts and figures.
+- `dashboard/` — Dashboard implementation and related files.
+- `docs/` — Synopsis, methodology, reports, and project documentation.
+- `requirements.txt` — Python dependencies.
 
-```bash
-git clone https://github.com/Tanishq747Shivasharan/Variance.git
-cd Variance
-pip install -r requirements.txt
-python src/analytics.py
-```
+## Data Authenticity and Integrity
 
-## Team
+This project uses an existing public research dataset.
 
-* Kranti Ingale
-* Ankita Salpekar
-* Ankita Karke
-* Ayush Bage
-* Tanishq Shivasharan
+- No synthetic project records will be generated.
+- No web scraping will be used.
+- The original raw dataset will be preserved separately from processed data.
+- Data cleaning and transformations will be documented.
+- Missing values will be handled transparently rather than replaced with fabricated observations.
+- The dataset source and relevant usage terms will be acknowledged.
+
+## Expected Outcomes
+
+The project aims to deliver:
+
+- A documented, cleaned dataset suitable for analysis
+- A reproducible Python-based analytics workflow
+- Schedule and effort performance metrics
+- Exploratory analysis of relevant project characteristics
+- Meaningful data visualizations
+- An interactive dashboard
+- Evidence-based findings and practical recommendations
+- A project report and presentation suitable for academic evaluation and future portfolio use
+
+## Scope and Limitations
+
+The project focuses on descriptive and exploratory data analytics. It does not aim to build an advanced machine learning or real-time prediction system.
+
+The analysis will identify **associations, not prove causation**. Findings will be interpreted in the context of the available SEERA data and its source population. Results will not automatically be generalized to every IT organization or software project.
+
+The final research questions, metrics, and dashboard indicators will be confirmed after the dataset audit.
+
+## Project Status
+
+**Current stage:** Dataset selected; detailed data audit and variable selection are pending.
+
+Upcoming work includes data cleaning, feature engineering, exploratory analysis, visualization, dashboard development, and documentation.
+
+## Acknowledgement
+
+The SEERA dataset is used as the underlying source of historical software project data. Credit belongs to the original dataset authors and contributors.
+
+**Official dataset:** https://zenodo.org/records/4312777
+
+---
+
+*This project is developed for academic learning and portfolio development, with an emphasis on data authenticity, reproducibility, analytical reasoning, and clear communication of findings.*
