@@ -2,7 +2,7 @@
 import pandas as pd
 from pathlib import Path
 
-# Paste the actual Excel file path copied from VS Code
+
 file_path = Path(
     r"C:\Users\ankit\Variance-full-backup\The_SEERA_Dataset\The SEERA Dataset\Dataset Files\SEERA dataset original raw data.xlsx"
 )
